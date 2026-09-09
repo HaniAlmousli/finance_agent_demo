@@ -1,0 +1,82 @@
+# =============================================================================
+# exchangerate-openapi.yaml — THE convert_currency tool, as a declaration.
+#
+# This spec IS the tool: there is no Lambda and no Python body anywhere.
+# `infra.py create` attaches it to the PREMIUM gateway as an OpenAPI target;
+# the gateway derives everything from it:
+#   - the MCP tool NAME            <- operationId
+#   - the tool's input schema      <- parameters
+#   - what the model reads         <- description
+#   - the exact outbound HTTP call <- servers[0].url + the path template
+# The gateway itself makes the HTTPS request, injecting the API key from the
+# AgentCore Identity credential provider as `Authorization: Bearer <key>`
+# (configured on the gateway target, NOT here — this file holds no secrets).
+#
+# The server URL is PINNED here: the model controls only base/target/amount.
+# `amount` is required because OpenAPI forbids optional path parameters —
+# the model passes 1 to get a plain rate.
+# =============================================================================
+openapi: 3.0.3
+info:
+  title: ExchangeRate API
+  description: Live currency conversion via exchangerate-api.com (v6)
+  version: "6"
+servers:
+  - url: https://v6.exchangerate-api.com/v6
+paths:
+  /pair/{base}/{target}/{amount}:
+    get:
+      operationId: convert_currency
+      description: >-
+        Convert an amount of money from one currency to another using live
+        exchange rates. Use ISO 4217 three-letter currency codes (e.g. USD,
+        EUR, JOD, GBP). To get just the exchange rate, convert an amount of 1.
+      parameters:
+        - name: base
+          in: path
+          required: true
+          description: 'The currency to convert FROM, as an ISO 4217 code, e.g. "USD"'
+          schema:
+            type: string
+            pattern: "^[A-Z]{3}$"
+        - name: target
+          in: path
+          required: true
+          description: 'The currency to convert TO, as an ISO 4217 code, e.g. "EUR"'
+          schema:
+            type: string
+            pattern: "^[A-Z]{3}$"
+        - name: amount
+          in: path
+          required: true
+          description: The amount of the base currency to convert (use 1 for the plain rate)
+          schema:
+            type: number
+      responses:
+        "200":
+          description: >-
+            Conversion result. On success: conversion_rate (the live rate) and
+            conversion_result (amount * rate). On failure result is "error"
+            and error-type is one of: unsupported-code, malformed-request,
+            invalid-key, inactive-account, quota-reached.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    description: '"success" or "error"'
+                  base_code:
+                    type: string
+                  target_code:
+                    type: string
+                  conversion_rate:
+                    type: number
+                    description: How much 1 unit of base is worth in target
+                  conversion_result:
+                    type: number
+                    description: amount converted into the target currency
+                  error-type:
+                    type: string
+                    description: Present only on errors

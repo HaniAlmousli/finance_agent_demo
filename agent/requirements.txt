@@ -1,0 +1,10 @@
+# Agent container dependencies (langgraph_bedrock.py) — used by the
+# AgentCore starter toolkit when building the Docker image.
+bedrock-agentcore
+langgraph
+langchain-aws
+langchain-core
+pyjwt[crypto]
+# gateway mode (M3): MCP client for loading tools from AgentCore Gateways
+langchain-mcp-adapters
+mcp

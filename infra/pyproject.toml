@@ -1,0 +1,15 @@
+[project]
+name = "finance-app-infra"
+version = "0.1.0"
+description = "finance_app admin tier — provisions AWS infra and ships the agent container"
+requires-python = ">=3.12"
+# The admin workstation's deps: infra.py (boto3/pyyaml), invoke_direct.py
+# (requests), and the starter toolkit that builds + launches the agent
+# container via CodeBuild. The serving machine never installs any of this —
+# it uses ../server/pyproject.toml.
+dependencies = [
+    "boto3",
+    "pyyaml",
+    "requests",
+    "bedrock-agentcore-starter-toolkit",
+]

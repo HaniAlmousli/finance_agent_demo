@@ -1,0 +1,238 @@
+# =============================================================================
+# config.yaml — every name and setting for the finance_app infrastructure.
+# Consumed by infra.py (create/destroy) and readable by finance_app.py.
+# Nothing in infra.py is hardcoded; change names here, not in code.
+# Maps to Setup steps S1–S9 in infra.py.
+# =============================================================================
+
+region: us-east-1
+
+# AWS profile with ADMIN rights, used to run infra.py (create/destroy/deploy).
+# CHANGE ME: set to a profile in your ~/.aws/credentials. In a sandbox account
+# without iam:CreateUser it is also reused as the app runtime profile (below).
+admin_profile: your-admin-profile
+
+# AWS profile finance_app.py uses to read the Cognito client secret from
+# Secrets Manager. Same as admin_profile while iam.create_user is false.
+app_profile: your-app-profile
+
+# Applied to every taggable AWS resource. Service is set per-resource in
+# infra.py (cognito / lambda / iam / secretsmanager / bedrock-agentcore / ecr).
+# Logical Cognito identifiers (groups, resource-server id, scopes) are NOT
+# AWS resources and are left un-prefixed / untagged.
+tags:
+  WorkloadEnvironment: eval
+  Team: eng-ml
+  DataClassification: public
+
+# --- S1: Cognito user pool -------------------------------------------------
+pool:
+  name: demo-cognito-finance-cp
+  password_policy:
+    MinimumLength: 12
+    RequireUppercase: true
+    RequireLowercase: true
+    RequireNumbers: true
+    RequireSymbols: true
+
+# --- S2 + S4: groups and the TIER scopes each grants at token mint ---------
+# The pre-token Lambda is GENERATED from this mapping — single source of truth.
+# Scopes are per-TIER (gateway access), NOT per-tool: adding a tool never
+# touches Cognito. Tool→tier assignment lives in gateways.tiers below (gateway
+# mode) and TIER_TOOLS in langgraph_bedrock.py (local mode).
+#   requires: — scope granted ONLY if the user is ALSO in all listed groups.
+#     premium-users alone must not grant premium.invoke: premium is an add-on
+#     entitlement, not a substitute for base agent membership.
+groups:
+  finance-agent-users:                        # base admission group
+    scopes:
+      - finance-gateway/basic.invoke          #   -> basic gateway tier
+  premium-users:                              # add-on entitlement
+    requires: [finance-agent-users]
+    scopes:
+      - finance-gateway/premium.invoke        #   -> premium gateway tier
+
+# The ONE group required to use the agent at all (checked at /chat and in the
+# agent entrypoint). Explicit on purpose: it must never depend on the ORDER
+# of the groups mapping above. Must be a key of `groups`.
+agent_admission_group: finance-agent-users
+
+# --- Agent LLM settings ------------------------------------------------------
+# Baked into the agent container's ENVIRONMENT by `infra.py deploy-agent`
+# (never sent in the /chat payload, so a direct Runtime caller can't swap the
+# model). Changing these requires re-running deploy-agent. Hardcoded fallback
+# in langgraph_bedrock.py covers direct/local invocation only.
+# Haiku 4.5 is the cheapest current Claude tier with tool calling — right for
+# a simple test. Must be an INFERENCE PROFILE id: current Anthropic models
+# can't be invoked by bare foundation-model id, and previous-gen models
+# (3.5 Haiku) are retired on Bedrock (EOL). Prefer the us. prefix over
+# global.: some org Service Control Policies deny global.* profiles (data
+# residency), in which case global.* fails with AccessDeniedException.
+agent:
+  model_id: us.anthropic.claude-haiku-4-5-20251001-v1:0
+  temperature: 0.1
+  # Per-SESSION conversation memory (LangGraph checkpointer in the microVM's
+  # process memory, thread keyed by the verified finance-<sub>). Follow-ups
+  # work within a session; history dies with the microVM (~15 min idle, 8 h
+  # cap, any deploy-agent, or invoke_direct.py --stop). Note: it keys on the
+  # USER, not the browser login — logout/login resumes the same thread.
+  # Baked into the container env at deploy — changing it needs deploy-agent.
+  session_memory: true
+
+# --- S3: resource server (the legal scope vocabulary) -----------------------
+# Defines API permissions (gateway access tiers) — NOT a registry of tools.
+resource_server:
+  identifier: finance-gateway
+  name: finance-gateway
+  scopes:
+    - name: basic.invoke
+      description: "Invoke basic-tier finance gateway tools"
+    - name: premium.invoke
+      description: "Invoke premium-tier finance gateway tools"
+
+# --- S4: pre-token-generation Lambda ----------------------------------------
+pre_token_lambda:
+  function_name: demo-lambda-finance-cp-pre-token-gen
+  role_name: demo-iam-finance-cp-pre-token-gen-role
+  runtime: python3.12
+
+# --- S5: app client ----------------------------------------------------------
+# Cognito user-pool clients are not taggable via the AWS API.
+app_client:
+  name: demo-cognito-finance-app
+  access_token_validity_minutes: 60
+  id_token_validity_minutes: 60
+
+# --- S6: Secrets Manager -----------------------------------------------------
+secret:
+  name: demo-secretsmanager-finance-app-cognito-client-secret
+
+# --- Agent Runtime (deployed by `python infra.py deploy-agent`) --------------
+# The starter toolkit builds the image remotely via CodeBuild (no local
+# Docker); the build context is ../agent — entrypoint/requirements paths
+# below are relative to that directory.
+# jwt_inbound_auth: true deploys the Runtime with a customJWTAuthorizer
+# against the pool (the target/M4 design) — which is what finance_app.py's
+# bearer-token /chat call expects. The resulting agent ARN is written to
+# infra_outputs.json; finance_app.py reads it from there.
+# NOTE: AgentCore runtime names allow only [A-Za-z0-9_] (no hyphens), so
+# underscores replace hyphens in the demo-{service}- pattern here.
+agent_runtime:
+  name: demo_bedrock_agentcore_finance_agent
+  entrypoint: langgraph_bedrock.py
+  requirements_file: requirements.txt
+  jwt_inbound_auth: true
+
+# --- S7: IAM user the finance_app SERVER runs as -----------------------------
+# create_user: false — sandbox has no iam:CreateUser; the app runs as
+# app_profile (same as admin_profile) instead of a dedicated invoker user.
+iam:
+  create_user: false
+  user_name: demo-iam-finance-app-invoker
+  policy_name: demo-iam-finance-app-server
+  # Only needed if agent_runtime.jwt_inbound_auth is false (pre-M4 IAM
+  # invocation): the deployed runtime ARN for the InvokeAgentRuntime policy
+  # statement. With JWT inbound auth (default), leave empty — invocation
+  # uses the user's bearer token and IAM plays no part.
+  agent_runtime_arn: ""
+
+# --- S8: demo users -----------------------------------------------------------
+# Users and passwords live in users.local.yaml (GITIGNORED — never committed).
+# Copy users.local.yaml.example to users.local.yaml and set passwords there.
+
+# --- M3/M5 (optional): AgentCore Gateways -------------------------------------
+# Disabled by default: gateways belong to migration milestones M3/M5. Flip
+# enabled: true when you reach M3; `infra.py create` will then:
+#   1. deploy ONE tools Lambda (code: gateway_tools_lambda.py) + its role
+#   2. create the gateway exec role with lambda:InvokeFunction on it
+#   3. create each tier gateway (CUSTOM_JWT vs the pool)
+#   4. attach each tier's tools as a Lambda target (create_gateway_target)
+# The tool->tier assignment BELOW is the entitlement split: a tool listed
+# under a tier exists only for tokens that tier's scope admits.
+# Tool names must match DISPATCH in gateway_tools_lambda.py.
+gateways:
+  enabled: true
+  exec_role_name: demo-iam-finance-gateway-exec-role
+  tools_lambda:
+    function_name: demo-lambda-finance-gateway-tools
+    role_name: demo-iam-finance-gateway-tools-role
+    runtime: python3.12
+    code_file: gateway_tools_lambda.py
+    # Declarative bundle: files zipped alongside the handler. Add/remove
+    # entries here, never code in infra.py. transactions.csv is generated by
+    # `create` step S9 (synthetic per-user data bound to real Cognito subs).
+    include:
+      - ../agent/tools_core.py
+      - ../agent/transactions.csv
+  tiers:
+    - name: demo-bedrock-agentcore-finance-basic-gw
+      required_scope: finance-gateway/basic.invoke     # authorizer allowedScopes
+      tools:
+        - name: get_weather
+          description: "Get the current weather in a country"
+          input_schema:
+            type: object
+            properties:
+              country:
+                type: string
+                description: >-
+                  The country to get the weather for, e.g. "USA", "Jordan"
+            required: [country]
+        # get_transactions is ROW-LEVEL secured: this is the FULL Lambda
+        # contract, but the model never sees access_token — the agent strips
+        # it from the model-visible schema and injects the user's verified
+        # token at call time. The Lambda then resolves the caller's sub via
+        # cognito get_user (validity + revocation checked by Cognito itself)
+        # and returns only that user's rows.
+        - name: get_transactions
+          description: >-
+            Look up the user's own bank transactions. Use when the user asks
+            about their transactions, spending, purchases, or income.
+            Optionally filter by a date range; with no dates the latest
+            transactions are returned.
+          input_schema:
+            type: object
+            properties:
+              start_date:
+                type: string
+                description: 'Optional range start, YYYY-MM-DD'
+              end_date:
+                type: string
+                description: 'Optional range end (inclusive), YYYY-MM-DD'
+              access_token:
+                type: string
+                description: >-
+                  Injected by the agent runtime from the verified login —
+                  never provided by the model
+            required: [access_token]
+    - name: demo-bedrock-agentcore-finance-premium-gw
+      required_scope: finance-gateway/premium.invoke   # exactly ONE tier scope per gateway
+      tools:
+        - name: calculator
+          description: >-
+            Calculate the result of a mathematical expression, e.g.
+            "2 + 3 * 4", "sqrt(16)", "sin(pi/2)"
+          input_schema:
+            type: object
+            properties:
+              expression:
+                type: string
+                description: "The mathematical expression to evaluate"
+            required: [expression]
+      # External-API tools (OpenAPI targets) — the gateway ITSELF makes the
+      # HTTPS call (no Lambda, no code of ours) and injects the API key from
+      # an AgentCore Identity credential provider (the token vault). The key
+      # is supplied ONCE via the env var below when `create` first builds the
+      # provider (or via a hidden prompt if unset); it never appears in git,
+      # this file, the container, or the app. Rotation: set the env var again
+      # and re-run `create`. Only tokens this gateway admits (premium.invoke)
+      # can ever trigger a keyed call.
+      openapi_targets:
+        - name: exchangerate
+          spec_file: specs/exchangerate-openapi.yaml   # operationId convert_currency
+          credential_provider:
+            name: demo-identity-exchangerate-api-key
+            env_var: EXCHANGE_RATE_API_KEY
+            location: HEADER               # Authorization: Bearer <key>
+            parameter_name: Authorization  # (key-less URL per exchangerate-api docs)
+            prefix: Bearer

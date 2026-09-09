@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>finance_app</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #fff; --ink: #1a2233; --muted: #5b6577;
+    --line: #d9dee7; --accent: #0369a1; --accent-dark: #02537f;
+    --user-bubble: #0369a1; --agent-bubble: #eef1f6;
+    --err: #b91c1c; --err-bg: #fdecec; --ok: #15803d; --ok-bg: #e9f7ee;
+    --tool: #7c3aed; --tool-bg: #f3eeff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.55 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex; min-height: 100vh; align-items: center; justify-content: center;
+  }
+
+  /* ================= LOGIN VIEW ================= */
+  #login-view {
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+    padding: 40px 44px; width: 400px; box-shadow: 0 4px 24px rgba(20,30,50,.08);
+  }
+  .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .logo .mark {
+    width: 34px; height: 34px; border-radius: 10px; background: var(--accent);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 17px;
+  }
+  .logo h1 { font-size: 21px; margin: 0; letter-spacing: -0.02em; }
+  #login-view p.sub { margin: 2px 0 26px; color: var(--muted); font-size: 14px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin: 15px 0 5px; }
+  input {
+    width: 100%; padding: 11px 13px; border: 1.5px solid var(--line);
+    border-radius: 10px; font-size: 15px; outline: none; background: #fbfcfe;
+    transition: border-color .12s;
+  }
+  input:focus { border-color: var(--accent); background: #fff; }
+  button {
+    border: none; border-radius: 10px; background: var(--accent); color: #fff;
+    font-size: 15px; font-weight: 700; cursor: pointer; transition: background .12s;
+  }
+  button:hover { background: var(--accent-dark); }
+  button:disabled { opacity: .55; cursor: wait; }
+  #login-btn { width: 100%; margin-top: 24px; padding: 12px; }
+  .error {
+    display: none; margin-top: 14px; padding: 10px 14px; border-radius: 10px;
+    background: var(--err-bg); color: var(--err); font-size: 13.5px;
+  }
+
+  /* ================= CHAT VIEW ================= */
+  #chat-view {
+    display: none; flex-direction: column; width: min(780px, 95vw); height: 90vh;
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+    overflow: hidden; box-shadow: 0 4px 24px rgba(20,30,50,.08);
+  }
+  #chat-head {
+    padding: 13px 22px; border-bottom: 1px solid var(--line); background: #fbfcfe;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  #chat-head .left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  #chat-head .mark {
+    width: 30px; height: 30px; border-radius: 9px; background: var(--accent);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 14px; flex: none;
+  }
+  #chat-head .title { font-weight: 750; font-size: 15px; }
+  #chat-head .who { color: var(--muted); font-size: 12.5px; }
+  #tool-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    padding: 3px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 700;
+    background: var(--ok-bg); color: var(--ok); border: 1px solid #bfe6cc;
+  }
+  .chip.off {
+    background: #f1f3f7; color: #9aa3b2; border-color: var(--line);
+    text-decoration: line-through;
+  }
+  #signout {
+    background: none; color: var(--accent); font-size: 13px; font-weight: 600;
+    padding: 6px 10px;
+  }
+  #signout:hover { background: #eef6fb; }
+
+  #messages {
+    flex: 1; overflow-y: auto; padding: 24px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .bubble {
+    max-width: 76%; padding: 11px 16px; border-radius: 16px;
+    white-space: pre-wrap; word-wrap: break-word;
+  }
+  .bubble.user {
+    background: var(--user-bubble); color: #fff;
+    align-self: flex-end; border-bottom-right-radius: 5px;
+  }
+  .bubble.agent {
+    background: var(--agent-bubble);
+    align-self: flex-start; border-bottom-left-radius: 5px;
+  }
+  .bubble.error { background: var(--err-bg); color: var(--err); align-self: stretch; max-width: 100%; }
+  .tool-tag {
+    display: inline-block; margin: 0 6px 4px 0; padding: 2px 9px; border-radius: 999px;
+    background: var(--tool-bg); color: var(--tool); border: 1px solid #d8c8fb;
+    font-size: 11.5px; font-weight: 800; vertical-align: 1px;
+  }
+  .typing { color: var(--muted); font-style: italic; }
+  .typing::after { content: ""; animation: dots 1.2s steps(4, end) infinite; }
+  @keyframes dots { 0% {content:""} 25% {content:"."} 50% {content:".."} 75% {content:"..."} }
+
+  #composer {
+    display: flex; gap: 10px; padding: 14px 18px;
+    border-top: 1px solid var(--line); background: #fbfcfe;
+  }
+  #composer input { flex: 1; background: #fff; }
+  #composer button { padding: 11px 24px; flex: none; }
+  .hint { text-align: center; color: var(--muted); font-size: 12px; padding: 0 0 10px; background: #fbfcfe; }
+</style>
+</head>
+<body>
+
+  <!-- ============ VIEW 1: LOGIN ============ -->
+  <div id="login-view">
+    <div class="logo"><div class="mark">F</div><h1>finance_app</h1></div>
+    <p class="sub">Sign in to chat with your finance agent</p>
+    <form id="login-form">
+      <label for="username">Username (email)</label>
+      <input id="username" type="email" autocomplete="username" required
+             placeholder="sarah@example.com">
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <button id="login-btn" type="submit">Sign in</button>
+      <div class="error" id="login-error"></div>
+    </form>
+  </div>
+
+  <!-- ============ VIEW 2: CHAT (after successful login) ============ -->
+  <div id="chat-view">
+    <div id="chat-head">
+      <div class="left">
+        <div class="mark">F</div>
+        <div>
+          <div class="title">Finance agent</div>
+          <div class="who" id="whoami"></div>
+        </div>
+      </div>
+      <div id="tool-chips"></div>
+      <button id="signout">Sign out</button>
+    </div>
+    <div id="messages"></div>
+    <form id="composer">
+      <input id="prompt" placeholder="Ask about the weather, your transactions, or a calculation…"
+             autocomplete="off" required maxlength="4000">
+      <button type="submit">Send</button>
+    </form>
+    <div class="hint" id="charcount" style="display:none"></div>
+    <div class="hint">Replies starting with a purple tag came from a tool — untagged answers are the model's own knowledge.</div>
+  </div>
+
+<script>
+/* ===========================================================================
+   Token state — only the SHORT-LIVED access token lives here, in JS memory.
+     access_token  (60 min) → "Authorization: Bearer" on every /chat
+   The 30-day refresh token and the user's sub are NOT here: the server keeps
+   them in httpOnly cookies this script cannot read. So an XSS could steal at
+   most the 60-min access token, never the 30-day one. /refresh needs no
+   arguments — the browser attaches the refresh cookie by itself.
+   No Cognito URL or AWS anything ever reaches this file.
+   =========================================================================== */
+let tokens = null;
+const $ = (id) => document.getElementById(id);
+
+/* Decode a JWT's payload for DISPLAY only (verification is the server's job).
+   Base64url → JSON: gives us cognito:groups and scope for the header chips. */
+function claimsOf(jwt) {
+  try {
+    const b64 = jwt.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+    return JSON.parse(atob(b64));
+  } catch { return {}; }
+}
+
+/* The access TIERS — chips show which gateway tiers THIS user's token
+   unlocks (scopes are per-tier, not per-tool). Must mirror config.yaml's
+   resource server scopes. */
+const ALL_TIERS = [
+  { scope: "finance-gateway/basic.invoke",   label: "basic" },
+  { scope: "finance-gateway/premium.invoke", label: "premium" },
+];
+
+/* ------------------- 1) LOGIN → swap to chat ------------------- */
+$("login-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  $("login-btn").disabled = true;
+  $("login-error").style.display = "none";
+  try {
+    const r = await fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: $("username").value,
+                             password: $("password").value }),
+    });
+    if (!r.ok) throw new Error((await r.json()).detail || "Login failed");
+    tokens = await r.json();
+    tokens.username = $("username").value;
+    enterChat();
+  } catch (err) {
+    $("login-error").textContent = err.message;
+    $("login-error").style.display = "block";
+  } finally {
+    $("login-btn").disabled = false;
+  }
+});
+
+function enterChat() {
+  const claims = claimsOf(tokens.access_token);
+  const scopes = new Set((claims.scope || "").split(" "));
+
+  $("whoami").textContent = tokens.username +
+    "  ·  " + ((claims["cognito:groups"] || []).join(", ") || "no groups");
+
+  // Entitlement chips: green = this user's token unlocks the tier, struck =
+  // not. Read from the SIGNED token — matches exactly what the agent (or the
+  // gateways' allowedScopes) will allow. Sarah: both green. John: premium
+  // struck out.
+  $("tool-chips").innerHTML = "";
+  for (const t of ALL_TIERS) {
+    const c = document.createElement("span");
+    c.className = "chip" + (scopes.has(t.scope) ? "" : " off");
+    c.textContent = t.label;
+    $("tool-chips").appendChild(c);
+  }
+
+  $("login-view").style.display = "none";
+  $("chat-view").style.display = "flex";
+  $("prompt").focus();
+  addBubble("agent", "Hi! Ask me about the weather, your transactions, a calculation, or currency conversion.");
+}
+
+/* ------------------- 2) CHAT ------------------- */
+$("composer").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const prompt = $("prompt").value.trim();
+  if (!prompt || !tokens) return;
+  $("prompt").value = "";
+  addBubble("user", prompt);
+  const pending = addBubble("agent typing", "thinking");
+
+  try {
+    let r = await chatRequest(prompt);
+    if (r.status === 401) {   // hourly expiry → silent renewal via the refresh cookie
+      await refreshAccessToken();
+      r = await chatRequest(prompt);
+    }
+    if (r.status === 403) {   // de-authorized with a still-valid token → clean logout
+      signOut("Your account is no longer entitled to the finance agent.");
+      return;
+    }
+    if (!r.ok) throw new Error("Agent error (" + r.status + ")");
+    const data = await r.json();
+    renderReply(pending, typeof data.reply === "string" ? data.reply : JSON.stringify(data.reply));
+  } catch (err) {
+    pending.className = "bubble error";
+    pending.textContent = err.message;
+  }
+});
+
+/* Character counter — reflects the MAX_PROMPT_CHARS cap the backend enforces.
+   The input's maxlength is the hard stop; this just surfaces the number as the
+   user nears it, so hitting the wall isn't a surprise. Keep 4000 in sync with
+   finance_app.py's ChatRequest and langgraph_bedrock.py's MAX_PROMPT_CHARS. */
+const PROMPT_MAX = 4000;
+$("prompt").addEventListener("input", () => {
+  const n = $("prompt").value.length, cc = $("charcount");
+  if (n > PROMPT_MAX - 400) {
+    cc.textContent = n + " / " + PROMPT_MAX + " characters";
+    cc.style.display = "block";
+  } else {
+    cc.style.display = "none";
+  }
+});
+
+function chatRequest(prompt) {
+  return fetch("/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json",
+               "Authorization": "Bearer " + tokens.access_token },
+    body: JSON.stringify({ prompt }),
+  });
+}
+
+async function refreshAccessToken() {
+  // No body: the browser attaches the httpOnly refresh cookie automatically.
+  const r = await fetch("/refresh", { method: "POST" });
+  if (r.status === 403) {
+    // De-authorized: removed from the group, so the refresh gate refused a new
+    // token. This is NOT an expiry — log out cleanly and say why.
+    const detail = (await r.json().catch(() => ({}))).detail
+      || "Your account is no longer eligible for this application.";
+    signOut(detail);
+    throw new Error(detail);
+  }
+  if (!r.ok) {
+    signOut("Session expired — please sign in again.");
+    throw new Error("Session expired — please sign in again.");
+  }
+  tokens.access_token = (await r.json()).access_token;
+}
+
+/* Render a reply, turning a leading "[TOOL: ...]" provenance tag into a
+   styled badge so tool-vs-model answers are visually obvious. Built with
+   createElement/textContent throughout — no innerHTML with reply text. */
+function renderReply(bubble, text) {
+  bubble.className = "bubble agent";
+  bubble.textContent = "";
+  const m = text.match(/^\s*(\[TOOL:[^\]]*\])\s*([\s\S]*)$/);
+  if (m) {
+    const tag = document.createElement("span");
+    tag.className = "tool-tag";
+    tag.textContent = m[1];
+    bubble.appendChild(tag);
+    bubble.appendChild(document.createTextNode(m[2]));
+  } else {
+    bubble.textContent = text;
+  }
+  $("messages").scrollTop = $("messages").scrollHeight;
+}
+
+function addBubble(cls, text) {
+  const div = document.createElement("div");
+  div.className = "bubble " + cls;
+  div.textContent = text;
+  $("messages").appendChild(div);
+  $("messages").scrollTop = $("messages").scrollHeight;
+  return div;
+}
+
+function signOut(message) {
+  // Best-effort: expire the refresh cookie server-side so sign-out is real,
+  // not just a UI reset. Fire-and-forget — the UI resets regardless.
+  fetch("/logout", { method: "POST" }).catch(() => {});
+  tokens = null;
+  $("messages").innerHTML = "";
+  $("chat-view").style.display = "none";
+  $("login-view").style.display = "block";
+  $("password").value = "";
+  $("username").focus();
+  // Show WHY we bounced them back (e.g. de-authorized mid-session). Typeof
+  // guard: event handlers below call signOut() with no arg — never pass the
+  // click event through as a "message".
+  const err = $("login-error");
+  if (typeof message === "string" && message) {
+    err.textContent = message;
+    err.style.display = "block";
+  } else {
+    err.style.display = "none";
+  }
+}
+$("signout").addEventListener("click", () => signOut());
+</script>
+</body>
+</html>

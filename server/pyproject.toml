@@ -1,0 +1,15 @@
+[project]
+name = "finance-app-server"
+version = "0.1.0"
+description = "finance_app serving tier — FastAPI backend + web UI (no admin tooling)"
+requires-python = ">=3.12"
+# Everything `uvicorn finance_app:app` needs — and nothing else. The admin/
+# provisioning deps live in ../infra/pyproject.toml; the agent container's
+# deps live in ../agent/requirements.txt. The three never mix.
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "boto3",
+    "pyjwt[crypto]",
+    "requests",
+]

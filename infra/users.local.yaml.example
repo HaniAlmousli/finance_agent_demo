@@ -1,0 +1,18 @@
+# =============================================================================
+# users.local.yaml.example — TEMPLATE. Copy to users.local.yaml (gitignored)
+# and set real passwords. Passwords must satisfy the pool policy in
+# config.yaml (min 12 chars, upper+lower+number+symbol).
+# =============================================================================
+
+users:
+  - username: sarah@example.com
+    password: "CHANGE_ME_min12_Upper1!"
+    groups: [finance-agent-users, premium-users]   # -> all three tools
+
+  - username: john@example.com
+    password: "CHANGE_ME_min12_Upper1!"
+    groups: [finance-agent-users]                  # -> basic tools only
+
+  - username: david@example.com
+    password: "CHANGE_ME_min12_Upper1!"
+    groups: []      

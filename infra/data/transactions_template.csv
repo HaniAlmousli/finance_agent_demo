@@ -1,0 +1,26 @@
+user_id,days_ago,description,amount,currency,category
+A,1,Whole Foods Market,-86.40,USD,groceries
+A,6,Monthly Salary,4200.00,USD,income
+A,19,Shell Gas Station,-52.15,USD,transport
+A,33,Pacific Gas & Electric,-143.80,USD,utilities
+A,52,Olive Garden Dinner,-67.25,USD,dining
+B,3,United Airlines SFO-JFK,-428.60,USD,travel
+B,12,Hilton Midtown 2 nights,-512.00,USD,travel
+B,24,Monthly Salary,3850.00,USD,income
+B,41,Uber Airport Ride,-38.75,USD,transport
+B,57,REI Travel Gear,-129.90,USD,shopping
+C,4,Transfer to Savings,-1500.00,USD,savings
+C,15,Monthly Salary,5100.00,USD,income
+C,28,Vanguard Index Fund Buy,-1000.00,USD,investing
+C,44,Trader Joe's,-64.30,USD,groceries
+C,59,Dividend Payment,86.12,USD,income
+D,2,Netflix Subscription,-15.49,USD,subscriptions
+D,9,Spotify Family Plan,-16.99,USD,subscriptions
+D,23,Monthly Salary,3600.00,USD,income
+D,37,Adobe Creative Cloud,-54.99,USD,subscriptions
+D,55,GitHub Copilot,-10.00,USD,subscriptions
+E,5,Rent Payment,-2200.00,USD,housing
+E,14,Farmers Market,-43.60,USD,groceries
+E,27,Monthly Salary,4750.00,USD,income
+E,39,Dentist Copay,-95.00,USD,health
+E,60,Amazon Household Order,-118.47,USD,shopping
