@@ -1,0 +1,364 @@
+<style>
+/* Paste this entire fragment into a WordPress Custom HTML block. */
+#finance-agent-post {
+  --fa-ink: #172033;
+  --fa-muted: #5b667a;
+  --fa-line: #d9e0ea;
+  --fa-soft: #f5f7fb;
+  --fa-blue: #2563eb;
+  --fa-blue-soft: #eaf1ff;
+  --fa-green: #087f5b;
+  --fa-green-soft: #e9f8f2;
+  --fa-amber: #a45b00;
+  --fa-amber-soft: #fff5df;
+  --fa-purple: #6d3ac7;
+  --fa-purple-soft: #f3edff;
+  --fa-red: #b42318;
+  --fa-red-soft: #fff0ee;
+  color: var(--fa-ink);
+  max-width: 980px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.72;
+  font-size: 17px;
+}
+#finance-agent-post * { box-sizing: border-box; }
+#finance-agent-post h1,
+#finance-agent-post h2,
+#finance-agent-post h3 { color: var(--fa-ink); line-height: 1.2; }
+#finance-agent-post h1 { font-size: clamp(2.1rem, 5vw, 3.5rem); letter-spacing: -0.04em; margin: 0 0 18px; }
+#finance-agent-post h2 { font-size: clamp(1.65rem, 3vw, 2.25rem); margin: 64px 0 16px; padding-top: 22px; border-top: 1px solid var(--fa-line); }
+#finance-agent-post h3 { font-size: 1.25rem; margin: 34px 0 10px; }
+#finance-agent-post p { margin: 0 0 18px; }
+#finance-agent-post a { color: var(--fa-blue); }
+#finance-agent-post code { background: #eef2f7; border-radius: 4px; padding: 2px 5px; font-size: .9em; }
+#finance-agent-post pre { background: #111827; color: #e5e7eb; border-radius: 10px; padding: 18px 20px; overflow-x: auto; font-size: .84em; line-height: 1.55; }
+#finance-agent-post pre code { background: none; padding: 0; color: inherit; }
+#finance-agent-post ul, #finance-agent-post ol { padding-left: 1.35em; }
+#finance-agent-post li { margin: 8px 0; }
+#finance-agent-post .fa-hero { margin: 10px 0 34px; }
+#finance-agent-post .fa-lead { font-size: 1.14rem; }
+#finance-agent-post .fa-note { border-left: 5px solid var(--fa-blue); background: var(--fa-blue-soft); padding: 16px 20px; margin: 24px 0; border-radius: 0 10px 10px 0; }
+#finance-agent-post .fa-note.green { border-color: var(--fa-green); background: var(--fa-green-soft); }
+#finance-agent-post .fa-note.amber { border-color: var(--fa-amber); background: var(--fa-amber-soft); }
+#finance-agent-post .fa-note.red { border-color: var(--fa-red); background: var(--fa-red-soft); }
+#finance-agent-post .fa-note strong { color: var(--fa-ink); }
+#finance-agent-post .fa-toc { background: var(--fa-soft); border: 1px solid var(--fa-line); border-radius: 12px; padding: 18px 24px; margin: 28px 0; }
+#finance-agent-post .fa-toc strong { display: block; margin-bottom: 5px; }
+#finance-agent-post .fa-toc ol { margin: 5px 0 0; columns: 2; }
+#finance-agent-post .fa-toc li { margin: 2px 0; }
+#finance-agent-post .fa-figure { border: 1px solid var(--fa-line); background: white; border-radius: 14px; padding: 18px; margin: 28px 0; overflow-x: auto; }
+#finance-agent-post .fa-figure figcaption { color: var(--fa-muted); font-size: .88rem; margin-top: 12px; }
+#finance-agent-post .fa-figure svg { display: block; width: 100%; min-width: 720px; height: auto; }
+#finance-agent-post .fa-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 22px 0; }
+#finance-agent-post .fa-card { border: 1px solid var(--fa-line); background: #fff; border-radius: 12px; padding: 18px 19px; }
+#finance-agent-post .fa-card h3 { margin-top: 0; font-size: 1.08rem; }
+#finance-agent-post .fa-card p:last-child { margin-bottom: 0; }
+#finance-agent-post .fa-label { display: inline-block; color: var(--fa-blue); font-size: .76rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 750; margin-bottom: 7px; }
+#finance-agent-post .fa-table-wrap { overflow-x: auto; margin: 22px 0 28px; }
+#finance-agent-post table { width: 100%; border-collapse: collapse; font-size: .94rem; min-width: 650px; }
+#finance-agent-post th { background: #eef2f7; text-align: left; font-weight: 750; }
+#finance-agent-post th, #finance-agent-post td { border: 1px solid var(--fa-line); padding: 11px 13px; vertical-align: top; }
+#finance-agent-post .fa-step { display: grid; grid-template-columns: 42px 1fr; gap: 14px; margin: 20px 0; }
+#finance-agent-post .fa-step-no { width: 34px; height: 34px; border-radius: 50%; color: white; background: var(--fa-blue); display: grid; place-items: center; font-weight: 750; margin-top: 2px; }
+#finance-agent-post .fa-step h3 { margin: 0 0 5px; }
+#finance-agent-post .fa-step p { margin-bottom: 0; }
+#finance-agent-post .fa-pill { display: inline-block; border-radius: 999px; padding: 3px 9px; font-size: .78rem; font-weight: 700; line-height: 1.4; white-space: nowrap; }
+#finance-agent-post .fa-pill.basic { color: var(--fa-green); background: var(--fa-green-soft); }
+#finance-agent-post .fa-pill.premium { color: var(--fa-purple); background: var(--fa-purple-soft); }
+#finance-agent-post .fa-pill.deny { color: var(--fa-red); background: var(--fa-red-soft); }
+#finance-agent-post .fa-check { color: var(--fa-green); font-weight: 750; }
+#finance-agent-post .fa-x { color: var(--fa-red); font-weight: 750; }
+#finance-agent-post .fa-small { color: var(--fa-muted); font-size: .9rem; }
+@media (max-width: 680px) {
+  #finance-agent-post { font-size: 16px; }
+  #finance-agent-post .fa-grid { grid-template-columns: 1fr; }
+  #finance-agent-post .fa-toc ol { columns: 1; }
+}
+</style>
+
+<article id="finance-agent-post">
+  <header class="fa-hero">
+    <h1>Finance AI Agent Demo Using AWS Bedrock, Cognito, AgentCore and LangGraph</h1>
+  </header>
+
+  <p class="fa-lead">Building an AI agent proof of concept is pretty straightforward. The harder question is: how do we take that proof of concept toward production and make it secure, reliable, observable, and maintainable—not just impressive in a demo?</p>
+
+  <p>I built this finance-agent demo to explore that question end to end. Many of the tools and business functions are intentionally simple and mainly educational. The complexity is in the architecture around them: authentication, tiered permissions, sensitive data, external APIs, session memory, and several machine identities in one request. The functionality is therefore simple but with a production-minded target. My goal is to keep adding more advanced functionality which real apps need so I can learn more.</p>
+  <p>The code can be found on GitHub: <a href="https://github.com/HaniAlmousli/finance_agent_demo/tree/main">here</a></p>
+
+  <nav class="fa-toc" aria-label="Article contents">
+    <strong>In this post</strong>
+    <ol>
+      <li><a href="#what-we-build">What we are building</a></li>
+      <li><a href="#architecture">Target architecture</a></li>
+      <li><a href="#components">The components</a></li>
+      <li><a href="#journey">The request journey</a></li>
+      <li><a href="#access">Who can access what</a></li>
+      <li><a href="#learnings">Security learnings</a></li>
+      <li><a href="#takeaways">Takeaways</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="what-we-build">1. What are we building?</h2>
+
+  <p>We are building a web application where a user can sign in and chat with a LangGraph finance assistant. The assistant can answer directly, or use tools when a request needs data or computation. In the demo, those tools are split into basic and premium tiers.</p>
+
+  <p>This is the starting point of an educational project, not the final shape of a finance platform. Future iterations can add more tools, more complex workflows, richer data sources, stronger policy controls, and additional agent capabilities. The purpose of this first version is to establish a clear foundation that makes those future additions easier to reason about securely in a scalable way.</p>
+
+  <p>The business functions are intentionally lightweight: the weather tool is deterministic, the transaction data is synthetic, the calculator is narrowly scoped, and currency conversion demonstrates an external API boundary. Those functions are not meant to model a complete financial product. They give us a simple surface on which to study a production-minded architecture.</p>
+
+  <h3>Project structure: three separate responsibilities</h3>
+
+  <p>The repository is split into three roots. This is more than an organizational preference: each root has a different machine role, deployment lifecycle, and security boundary.</p>
+
+  <div class="fa-table-wrap">
+    <table>
+      <thead><tr><th>Directory</th><th>What it contains</th><th>Where it runs</th><th>Why it is separate</th></tr></thead>
+      <tbody>
+        <tr><td><code>agent/</code></td><td>The LangGraph entrypoint, shared tool bodies, and the container requirements.</td><td>Built into the AgentCore Runtime image and executed in the agent's microVM.</td><td>It is the deployment boundary for the agent. Admin files, user passwords, server configuration, and other secrets do not ship in the agent build context.</td></tr>
+        <tr><td><code>infra/</code></td><td>The provisioning CLI, <code>config.yaml</code> source of truth, gateway configuration, Lambda adapters, OpenAPI specifications, and infrastructure tests.</td><td>Used by the administrator during setup, deployment, status checks, and teardown.</td><td>Infrastructure changes and administrative credentials stay out of the serving application and the Runtime container.</td></tr>
+        <tr><td><code>server/</code></td><td>The FastAPI backend, login and refresh endpoints, chat endpoint, static web UI, and the generated infrastructure handoff.</td><td>Runs as the serving application that users reach through HTTPS.</td><td>It is the user-facing boundary. Its IAM identity is intentionally narrow and is used to read the Cognito client secret, not to impersonate users when invoking the agent.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The separation also gives the project independent dependency environments: the server has its own application dependencies, the infrastructure project has its provisioning dependencies, and the agent container installs only what it needs for runtime execution. In a real system, this makes it easier to review what is deployed, reduce accidental secret exposure, and change one lifecycle without rebuilding everything else.</p>
+
+  <div class="fa-table-wrap">
+    <table>
+      <thead><tr><th>User</th><th>Cognito groups</th><th>Tools available to the agent</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Sarah</strong></td><td><code>finance-agent-users</code><br><code>premium-users</code></td><td>Weather, her own transactions, calculator, and currency conversion</td></tr>
+        <tr><td><strong>John</strong></td><td><code>finance-agent-users</code></td><td>Weather and his own transactions</td></tr>
+        <tr><td><strong>David</strong></td><td>No groups</td><td>Present in Cognito for a negative test, but no access to the application</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>This gives us three separate authorization questions to teach:</p>
+  <ol>
+    <li>Is this a real, authenticated user?</li>
+    <li>Has this user been admitted to the application?</li>
+    <li>Which tools—and which rows of data—may this user access?</li>
+  </ol>
+
+  <div class="fa-note">
+    <strong>Important distinction:</strong> the agent is not secured by putting “do not use the calculator” in a system prompt. For John, the premium tools are not bound into the model's tool list, and the premium gateway rejects his token as well. Authorization makes the tool unavailable; prompting is not the security boundary.
+  </div>
+
+  <h2 id="architecture">2. Target architecture</h2>
+
+  <p>The defining property is that the user's identity travels as a verifiable signed token. No hop simply trusts the previous hop's statement about the caller identity. The application, Runtime, and gateways independently verify the Cognito signature and the claims they rely on.</p>
+
+  <figure class="fa-figure">
+    <svg viewBox="0 0 940 610" role="img" aria-labelledby="fa-arch-title fa-arch-desc">
+      <title id="fa-arch-title">Finance agent target architecture</title>
+      <desc id="fa-arch-desc">A user signs in through a FastAPI application. Cognito issues a scoped JWT. The application sends the token to AgentCore Runtime, which loads tools from basic and premium gateways. Internal tools use a Lambda, while an external currency API receives credentials from AgentCore Identity.</desc>
+      <defs>
+        <marker id="fa-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/></marker>
+        <filter id="fa-shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#172033" flood-opacity=".10"/></filter>
+      </defs>
+      <rect x="0" y="0" width="940" height="610" rx="12" fill="#fbfcff"/>
+      <text x="32" y="36" fill="#172033" font-size="20" font-weight="750">The token is the identity spine</text>
+      <text x="32" y="61" fill="#5b667a" font-size="13">Authentication, entitlement, tool routing, data ownership, and outbound credentials remain separate decisions.</text>
+
+      <g filter="url(#fa-shadow)"><rect x="36" y="100" width="170" height="86" rx="12" fill="#eaf1ff" stroke="#9bbcff"/><text x="121" y="132" text-anchor="middle" fill="#172033" font-size="16" font-weight="750">Sarah / John</text><text x="121" y="157" text-anchor="middle" fill="#354258" font-size="12">browser + password</text></g>
+      <g filter="url(#fa-shadow)"><rect x="270" y="100" width="205" height="86" rx="12" fill="#f3edff" stroke="#cbb5ff"/><text x="372" y="132" text-anchor="middle" fill="#172033" font-size="16" font-weight="750">Cognito</text><text x="372" y="154" text-anchor="middle" fill="#354258" font-size="12">groups → signed JWT scopes</text></g>
+      <g filter="url(#fa-shadow)"><rect x="540" y="100" width="205" height="86" rx="12" fill="#e9f8f2" stroke="#8dd8bf"/><text x="642" y="132" text-anchor="middle" fill="#172033" font-size="16" font-weight="750">finance_app</text><text x="642" y="154" text-anchor="middle" fill="#354258" font-size="12">FastAPI login + /chat</text></g>
+      <path d="M206 143 H270" stroke="#64748b" stroke-width="2" marker-end="url(#fa-arrow)"/><text x="238" y="132" text-anchor="middle" fill="#5b667a" font-size="11">credentials</text>
+      <path d="M475 143 H540" stroke="#64748b" stroke-width="2" marker-end="url(#fa-arrow)"/><text x="507" y="132" text-anchor="middle" fill="#5b667a" font-size="11">JWT</text>
+
+      <g filter="url(#fa-shadow)"><rect x="337" y="242" width="270" height="94" rx="12" fill="#fff5df" stroke="#f0bd6c"/><text x="472" y="276" text-anchor="middle" fill="#172033" font-size="17" font-weight="750">AgentCore Runtime</text><text x="472" y="298" text-anchor="middle" fill="#354258" font-size="12">Cognito authorizer + LangGraph</text><text x="472" y="318" text-anchor="middle" fill="#354258" font-size="12">per-user microVM session</text></g>
+      <path d="M642 186 V215 H472 V242" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#fa-arrow)"/><text x="570" y="207" fill="#5b667a" font-size="11">user JWT</text>
+
+      <g filter="url(#fa-shadow)"><rect x="70" y="430" width="220" height="105" rx="12" fill="#e9f8f2" stroke="#8dd8bf"/><text x="180" y="463" text-anchor="middle" fill="#172033" font-size="16" font-weight="750">Basic Gateway</text><text x="180" y="486" text-anchor="middle" fill="#354258" font-size="12">basic.invoke</text><text x="180" y="509" text-anchor="middle" fill="#354258" font-size="12">weather + transactions</text></g>
+      <g filter="url(#fa-shadow)"><rect x="360" y="430" width="220" height="105" rx="12" fill="#f3edff" stroke="#cbb5ff"/><text x="470" y="463" text-anchor="middle" fill="#172033" font-size="16" font-weight="750">Premium Gateway</text><text x="470" y="486" text-anchor="middle" fill="#354258" font-size="12">premium.invoke</text><text x="470" y="509" text-anchor="middle" fill="#354258" font-size="12">calculator + currency</text></g>
+      <g filter="url(#fa-shadow)"><rect x="650" y="430" width="220" height="105" rx="12" fill="#fff0ee" stroke="#f2a59b"/><text x="760" y="463" text-anchor="middle" fill="#172033" font-size="16" font-weight="750">AgentCore Identity</text><text x="760" y="486" text-anchor="middle" fill="#354258" font-size="12">vaulted API credentials</text><text x="760" y="509" text-anchor="middle" fill="#354258" font-size="12">external currency API</text></g>
+      <path d="M425 336 V380 H180 V430" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#fa-arrow)"/><path d="M472 336 V430" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#fa-arrow)"/><path d="M520 336 V380 H760 V430" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#fa-arrow)"/>
+      <text x="283" y="374" fill="#5b667a" font-size="11">MCP + bearer token</text><text x="485" y="374" fill="#5b667a" font-size="11">MCP + bearer token</text><text x="628" y="374" fill="#5b667a" font-size="11">server-side credential</text>
+      <text x="180" y="570" text-anchor="middle" fill="#087f5b" font-size="12" font-weight="700">Sarah ✓ · John ✓</text>
+      <text x="470" y="570" text-anchor="middle" fill="#6d3ac7" font-size="12" font-weight="700">Sarah ✓ · John rejected</text>
+      <text x="760" y="570" text-anchor="middle" fill="#b42318" font-size="12" font-weight="700">key never reaches the agent</text>
+    </svg>
+    <figcaption>Figure 1. The same user token is presented downstream, but each boundary performs its own verification. The tool catalog and outbound credential are controlled independently.</figcaption>
+  </figure>
+
+  <div class="fa-note green"><strong>Design payoff:</strong> a user entitlement change is a Cognito group change; a tool rollout is a gateway-target change; and an API-key rotation is an Identity-vault change. None requires putting a secret into the model prompt or rebuilding the entire application.</div>
+
+  <h2 id="components">3. What does each component do?</h2>
+
+  <p>The architecture is intentionally shown before the individual components because the relationships matter. Each component has one clear job, which prevents authentication, entitlement, tool routing, data ownership, and secret management from becoming one tangled decision in application code.</p>
+
+  <h3>Groups, scopes, and tools</h3>
+
+  <p>Cognito groups represent business entitlements. The pre-token-generation Lambda maps those groups into scopes. The scopes represent access to a gateway tier—not individual tools. The gateway tier then defines which tools exist in that tier.</p>
+
+  <div class="fa-table-wrap">
+    <table>
+      <thead><tr><th>Cognito group</th><th>Scope minted into the JWT</th><th>Gateway tier</th><th>Tools in this demo</th></tr></thead>
+      <tbody>
+        <tr><td><code>finance-agent-users</code></td><td><code>finance-gateway/basic.invoke</code></td><td><span class="fa-pill basic">Basic</span></td><td><code>get_weather</code>, <code>get_transactions</code></td></tr>
+        <tr><td><code>premium-users</code><br><span class="fa-small">requires the base group</span></td><td><code>finance-gateway/premium.invoke</code></td><td><span class="fa-pill premium">Premium</span></td><td><code>calculator</code>, <code>convert_currency</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>This is a deliberate design choice. Adding a new basic tool changes the gateway target list; it does not require a new Cognito scope or a new token shape. Cognito defines the legal permission vocabulary, while the gateway defines the tool catalog inside each tier.</p>
+
+  <div class="fa-grid">
+    <section class="fa-card"><span class="fa-label">Identity</span><h3>Amazon Cognito</h3><p>Cognito verifies usernames and passwords and issues signed JWTs. Group membership is translated into tier scopes at token-mint time by a pre-token-generation Lambda.</p></section>
+    <section class="fa-card"><span class="fa-label">Front door</span><h3>FastAPI finance_app</h3><p>The server owns the login proxy, refresh flow, JWT verification, the admission check for <code>finance-agent-users</code>, and the call into AgentCore Runtime.</p></section>
+    <section class="fa-card"><span class="fa-label">Reasoning</span><h3>LangGraph agent</h3><p>The agent runs the model/tool loop. It receives a user prompt and a verified user token, loads only the tools that token is entitled to use, and maintains per-user session memory. LangGraph is the framework used here; the same architecture could be applied to another agent framework such as Amazon Bedrock Agents, Strands, or a custom orchestration layer.</p></section>
+    <section class="fa-card"><span class="fa-label">Hosting</span><h3>AgentCore Runtime</h3><p>Runtime hosts the deployable agent in a per-session microVM and uses a Cognito JWT authorizer at its inbound boundary. The agent still verifies the token inside its own entrypoint.</p></section>
+    <section class="fa-card"><span class="fa-label">Tool boundary</span><h3>AgentCore Gateways</h3><p>Separate basic and premium gateways expose MCP tools. Each gateway has an <code>allowedScopes</code> rule and re-checks the token on every tool call.</p></section>
+    <section class="fa-card"><span class="fa-label">Internal execution</span><h3>Tools Lambda</h3><p>A single Lambda dispatches internal tools such as weather and transactions. Its implementation shares <code>tools_core.py</code> with local agent mode so behavior does not drift.</p></section>
+    <section class="fa-card"><span class="fa-label">Outbound secrets</span><h3>AgentCore Identity</h3><p>The gateway retrieves an external API key from the Identity vault at call time. The key is never sent to the model, browser, agent container, or source repository.</p></section>
+    <section class="fa-card"><span class="fa-label">Data boundary</span><h3>Transaction ownership</h3><p>The transaction tool resolves the caller from a verified Cognito token and filters rows by the resulting subject. A caller cannot provide another person's <code>user_id</code>.</p></section>
+  </div>
+
+  <h3>Why are there several identities?</h3>
+  <p>A useful mental model is that this request has more than one identity, and each identity has a different job:</p>
+
+  <div class="fa-table-wrap">
+    <table>
+      <thead><tr><th>Identity</th><th>Used for</th><th>What it must not be used for</th></tr></thead>
+      <tbody>
+        <tr><td>The user's Cognito JWT</td><td>Representing the user and carrying signed entitlement scopes</td><td>Granting access to rows based on a caller-supplied identity field</td></tr>
+        <tr><td>The app's IAM identity</td><td>Reading the one Cognito client secret from Secrets Manager</td><td>Invoking the agent on behalf of every user</td></tr>
+        <tr><td>Runtime execution role</td><td>Allowing the agent workload to use its AWS services and model</td><td>Deciding which human user is entitled to which tool</td></tr>
+        <tr><td>Gateway execution role</td><td>Invoking internal tool targets and retrieving outbound credentials</td><td>Trusting arbitrary security-sensitive JSON in a tool event</td></tr>
+        <tr><td>AgentCore Identity vault</td><td>Supplying API keys or future user-specific OAuth tokens server-side</td><td>Exposing credentials to the model or agent code</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="journey">4. The request journey</h2>
+
+  <p>Now let us follow a request through the system. The flow has a one-time startup phase, a login phase, and a per-message phase.</p>
+
+  <figure class="fa-figure">
+    <svg viewBox="0 0 940 360" role="img" aria-labelledby="fa-flow-title fa-flow-desc">
+      <title id="fa-flow-title">Finance agent request journey</title>
+      <desc id="fa-flow-desc">The request moves from HTTPS login to Cognito, then to FastAPI, Runtime, gateway tool discovery, a tool target, and finally back to the user.</desc>
+      <defs><marker id="fa-flow-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#64748b"/></marker></defs>
+      <rect x="0" y="0" width="940" height="360" rx="12" fill="#fbfcff"/>
+      <text x="32" y="34" fill="#172033" font-size="20" font-weight="750">One message, from browser to tool result</text>
+      <text x="32" y="58" fill="#5b667a" font-size="13">The token is repeatedly verified; the result is the only thing returned to the model.</text>
+      <g font-size="12" fill="#172033" text-anchor="middle">
+        <rect x="36" y="108" width="118" height="58" rx="10" fill="#eaf1ff" stroke="#9bbcff"/><text x="95" y="132">1. Browser</text><text x="95" y="150" fill="#5b667a">POST /chat</text>
+        <rect x="192" y="108" width="118" height="58" rx="10" fill="#e9f8f2" stroke="#8dd8bf"/><text x="251" y="132">2. App</text><text x="251" y="150" fill="#5b667a">verify + 403 gate</text>
+        <rect x="348" y="108" width="138" height="58" rx="10" fill="#fff5df" stroke="#f0bd6c"/><text x="417" y="132">3. Runtime</text><text x="417" y="150" fill="#5b667a">agent entrypoint</text>
+        <rect x="524" y="108" width="138" height="58" rx="10" fill="#f3edff" stroke="#cbb5ff"/><text x="593" y="132">4. Gateway</text><text x="593" y="150" fill="#5b667a">tools/list + scopes</text>
+        <rect x="700" y="108" width="204" height="58" rx="10" fill="#fff0ee" stroke="#f2a59b"/><text x="802" y="132">5. Target</text><text x="802" y="150" fill="#5b667a">Lambda or external API</text>
+      </g>
+      <g stroke="#64748b" stroke-width="2" marker-end="url(#fa-flow-arrow)"><path d="M154 137 H192"/><path d="M310 137 H348"/><path d="M486 137 H524"/><path d="M662 137 H700"/></g>
+      <g font-size="12" fill="#354258">
+        <rect x="80" y="222" width="780" height="74" rx="10" fill="#eef2f7"/>
+        <text x="100" y="247" font-weight="700">Security checks on the path</text>
+        <text x="100" y="271">JWT signature + issuer + expiry + client → admission group → session bound to sub → tier scope → tool schema → row ownership / outbound credential</text>
+      </g>
+      <text x="470" y="330" text-anchor="middle" fill="#087f5b" font-size="13" font-weight="700">Tool data returns through the same path; credentials and code do not.</text>
+    </svg>
+    <figcaption>Figure 2. The application is only the first boundary. The Runtime and gateway repeat the checks needed for their own decisions.</figcaption>
+  </figure>
+
+  <div class="fa-step"><div class="fa-step-no">0</div><div><h3>Startup: prepare the application identity</h3><p>When the FastAPI server starts, it uses its application IAM identity to read one Cognito client secret from Secrets Manager. It downloads Cognito's public JWKS keys so it can verify user JWTs locally. These server credentials are not used to invoke the agent; the user's JWT is used for that.</p></div></div>
+
+  <div class="fa-step"><div class="fa-step-no">1</div><div><h3>Login: password in, entitlement-rich token out</h3><p>The browser sends the username and password to <code>/login</code> over HTTPS. The server forwards them to Cognito with <code>USER_PASSWORD_AUTH</code> and computes <code>SECRET_HASH = Base64(HMAC-SHA256(client_secret, username + client_id))</code>. Cognito validates the client, secret hash, and password, then the pre-token Lambda maps groups to scopes. Sarah receives both <code>basic.invoke</code> and <code>premium.invoke</code>; John receives only <code>basic.invoke</code>.</p><p>The access token lasts 60 minutes in this demo. The 30-day refresh token is placed in an <code>httpOnly</code>, <code>Secure</code>, <code>SameSite=Strict</code> cookie scoped to <code>/refresh</code>, keeping it away from page JavaScript.</p></div></div>
+
+  <div class="fa-step"><div class="fa-step-no">2</div><div><h3>Chat admission: verify the user and the agent entitlement</h3><p>The browser calls <code>/chat</code> with the access token. <code>finance_app</code> verifies the JWT signature, issuer, expiry, token type, and client ID. It then checks the explicit <code>agent_admission_group</code> from configuration, which is <code>finance-agent-users</code> in this demo.</p><p>A Cognito user without that group does authenticate: Cognito verifies the password and mints tokens. The application then refuses to hand the session over to the agent, so from the user's perspective the login flow does not get past the login form. The user is blocked because the application admission check fails—not because Cognito failed to authenticate them.</p><p>The application derives the session identity from the verified Cognito <code>sub</code>, producing a value such as <code>finance-&lt;sub&gt;</code>. It forwards only the prompt and the user's bearer token to Runtime.</p></div></div>
+
+  <div class="fa-step"><div class="fa-step-no">3</div><div><h3>Runtime entrypoint: defend against direct callers</h3><p>AgentCore Runtime has a Cognito JWT authorizer, but the Runtime is directly reachable. A caller could bypass the FastAPI application and send a valid-looking payload directly. Therefore the LangGraph entrypoint verifies the token inside the agent again, checks the admission group again, and rejects a session header that does not match <code>finance-&lt;verified sub&gt;</code>.</p><p>This is defense in depth: the agent does not treat the application as the only trusted source of claims, and it does not trust a client-set session identifier to represent a user.</p></div></div>
+
+  <div class="fa-step"><div class="fa-step-no">4</div><div><h3>Tool discovery: the user's scopes determine the model's world</h3><p>The agent connects to the already-created basic and premium gateways using MCP and the user's bearer token. Each gateway independently checks the token. Both Sarah and John can load the basic tools. John's premium request receives the expected <code>401</code> or <code>403</code>, so that tier is skipped. Sarah loads both tiers.</div></div>
+
+  <div class="fa-step"><div class="fa-step-no">5</div><div><h3>Tool call: only loaded tools can be called</h3><p>By the time the LangGraph model runs, it has already been bound to an entitlement-filtered list of tools. If the user lacks a tier scope, those gateway tools are never loaded into the agent and never appear in the model's tool schemas. This is the first protection: the model has no tool it can select.</p><p>For an entitled tool, the model emits a call by name. The tool object already knows which gateway to call. The gateway then re-checks the token and required scope on every <code>tools/call</code>, validates the arguments against the registered schema, and invokes its target using the gateway execution role. For internal tools, the single Lambda uses the gateway-provided tool name to select a function from its <code>DISPATCH</code> map.</p></div></div>
+
+  <div class="fa-step"><div class="fa-step-no">6</div><div><h3>Result: data comes back, not credentials</h3><p>The result travels from the target to the gateway, then to the agent's ToolNode, back to the model, and finally to the user. With session memory enabled, LangGraph stores the conversation in the user's per-session microVM under a thread derived from the verified subject.</p></div></div>
+
+  <h3>Two tool calls, two different security stories</h3>
+
+  <p>The transaction and currency-conversion examples show why “tool authorization” is not one thing.</p>
+
+  <div class="fa-grid">
+    <section class="fa-card"><span class="fa-label">Internal tool</span><h3><code>get_transactions</code></h3><p>The basic gateway admits both users. The agent hides the <code>access_token</code> parameter from the model and injects the verified token at call time. The Lambda calls Cognito to resolve the token's subject, then filters the synthetic transaction CSV to that subject. A prompt such as “show me Sarah's rows” has no identity parameter to manipulate.</p></section>
+    <section class="fa-card"><span class="fa-label">External tool</span><h3><code>convert_currency</code></h3><p>The premium gateway exposes an OpenAPI target. The gateway itself calls the external exchange-rate API and retrieves the API key from AgentCore Identity. The key is not in the agent, prompt, browser, or Lambda. The agent sees only the conversion result.</p></section>
+  </div>
+
+  <h2 id="access">5. Who can log in, and who can use the agent?</h2>
+
+  <p>Pool membership and agent access are deliberately different. Cognito answers “who are you?” Creating a user gives that person an identity. The application admission group answers “may you use this particular agent?” The tier scopes answer “which gateway may you enter?”</p>
+
+  <div class="fa-table-wrap">
+    <table>
+      <thead><tr><th>Account state</th><th>Can Cognito authenticate?</th><th>Can reach the agent through the app?</th><th>Effective tools</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>User in the pool, no groups</td><td><span class="fa-check">Yes — Cognito authenticates</span></td><td><span class="fa-x">No — app blocks handoff</span></td><td>None</td><td>The user receives tokens, but the web app checks <code>agent_admission_group</code> before handing the session to the agent.</td></tr>
+        <tr><td><code>finance-agent-users</code> — John</td><td><span class="fa-check">Yes</span></td><td><span class="fa-check">Yes</span></td><td><span class="fa-pill basic">Basic</span> weather + own transactions</td><td>The base group mints <code>basic.invoke</code>.</td></tr>
+        <tr><td>Base group + <code>premium-users</code> — Sarah</td><td><span class="fa-check">Yes</span></td><td><span class="fa-check">Yes</span></td><td><span class="fa-pill basic">Basic</span> + <span class="fa-pill premium">Premium</span></td><td>The add-on group grants premium only when the base group is also present.</td></tr>
+        <tr><td><code>premium-users</code> only</td><td><span class="fa-check">Yes — Cognito authenticates</span></td><td><span class="fa-x">No — app blocks handoff</span></td><td>None</td><td>The server requires the base admission group, and the conditional mapping does not mint the premium scope without it.</td></tr>
+        <tr><td>David — no groups</td><td><span class="fa-check">Yes</span></td><td><span class="fa-x">No app access</span></td><td>None</td><td>David is present in the Cognito users configuration as a negative test case, but the application blocks him because he is not in the base group.</td></tr>
+        <tr><td>Unknown group only, such as <code>hr-users</code></td><td><span class="fa-check">Yes</span></td><td><span class="fa-x">No — 403</span></td><td>None</td><td>Unknown groups are inert; they are not treated as generic permission to enter.</td></tr>
+        <tr><td>Base group + unknown group</td><td><span class="fa-check">Yes</span></td><td><span class="fa-check">Yes</span></td><td><span class="fa-pill basic">Basic</span></td><td>The recognized base group grants access. The unknown group adds nothing.</td></tr>
+        <tr><td>User disabled in Cognito</td><td><span class="fa-x">No next login/refresh</span></td><td>Existing token may work until expiry</td><td>Existing token's tools</td><td>Locally verified JWTs remain valid until their <code>exp</code> time; the demo's maximum residual window is about 60 minutes.</td></tr>
+        <tr><td>Group membership changed</td><td><span class="fa-check">Yes</span></td><td>Changes at next token mint</td><td>New scopes after login/refresh</td><td>Signed tokens are immutable. A group edit does not rewrite an already-issued token.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="fa-note amber"><strong>Onboarding rule:</strong> create the Cognito user, add <code>finance-agent-users</code>, and optionally add <code>premium-users</code>. Step one alone creates someone who can log in and reach the login screen, but cannot use the agent.</div>
+
+  <h2 id="learnings">6. Security learnings that changed the design</h2>
+
+  <p>The most valuable part of this project was not wiring the happy path. It was discovering where assumptions would fail if a caller skipped the application or manipulated inputs. These are the design lessons I would carry into other AI-agent projects.</p>
+
+  <h3>1. “The app checked it” is not enough</h3>
+  <p>Because Runtime is directly reachable, a caller can bypass <code>finance_app</code>. The agent therefore verifies the token inside the entrypoint, including its RS256 signature, issuer, access-token use, client ID, and expiry. Claims such as <code>cognito:groups</code> and <code>scope</code> are trusted only after that verification.</p>
+
+  <h3>2. A session ID is routing information, not proof of identity</h3>
+  <p>The Runtime session header is client-set. It tells the service where to route a request, but it does not prove that the caller owns that session. The agent derives <code>finance-&lt;sub&gt;</code> from the verified token and rejects mismatches. This matters even more when session memory is enabled: an unbound session could become a conversation-confidentiality problem.</p>
+
+  <h3>3. Tool entitlement and row ownership are different axes</h3>
+  <p>The basic scope allows both Sarah and John to call the transactions tool. It does not authorize either user to read every row. The caller identity is therefore derived from a verifiable token, not accepted as a plain <code>user_id</code> argument. The gateway is good at tier admission; the tool implementation must still enforce data ownership.</p>
+
+  <h3>4. Security-sensitive fields must not be model-controlled</h3>
+  <p>The model sees transaction dates, but not the hidden <code>access_token</code> parameter used to resolve identity. This reduces the attack surface for prompt injection. The same principle applies to mode, model ID, pool identity, and gateway URLs: they come from deployment environment configuration, not from caller-controlled payload fields.</p>
+
+  <h3>5. IAM protects invocation, not the truth of the payload</h3>
+  <p>The gateway execution role can prove that the gateway—not a random principal—invoked the Lambda. It cannot prove that every JSON field inside the event is honest. Tool code must treat event data as untrusted and independently verify anything security-load-bearing.</p>
+
+  <h3>6. Secrets should enter at the last responsible moment</h3>
+  <p>The exchange-rate API key is stored in AgentCore Identity and injected by the gateway only when the external call is made. It does not transit the model context or the agent's code. This is a much cleaner rotation story: replace the vault credential without changing the agent.</p>
+
+  <h3>7. Bound untrusted inputs at every boundary</h3>
+  <p>The demo caps prompts at 4,000 characters in the browser, FastAPI validation, and the agent entrypoint. The browser limit improves user experience; the server and agent limits provide the actual protection against direct callers, excessive context, and avoidable model cost.</p>
+
+  <h2>7. What I would add before production</h2>
+
+  <p>This is an educational architecture demo, not a banking system ready for production. Before deploying a similar design for a real workload, I would add:</p>
+  <ul>
+    <li>Per-IP and per-user rate limits for login and chat.</li>
+    <li>Concurrency limits and cancellation for long-running agent calls.</li>
+    <li>A documented revocation requirement, followed by shorter token lifetimes or active revocation checks if needed.</li>
+    <li>Centralized audit events for login, entitlement decisions, tool discovery, tool calls, and data access.</li>
+    <li>A threat model and security review for every new tool added to the catalog.</li>
+  </ul>
+
+  <div class="fa-note red"><strong>Known trade-off in the demo:</strong> disabling a user or removing a group does not invalidate an already-minted access token immediately. The token remains usable until its expiry, so the revocation window must be an explicit product and security decision.</div>
+
+  <h2 id="takeaways">8. My main takeaways</h2>
+
+  <p>This project reinforced six principles that apply well beyond finance:</p>
+  <ol>
+    <li><strong>Authentication identifies the caller.</strong> It should not be overloaded with every tool-level decision.</li>
+    <li><strong>Authorization should remove unsafe capabilities.</strong> A tool the user cannot use should not exist in the model's tool list.</li>
+    <li><strong>Permission to call a data tool is not permission to read every record.</strong> Data ownership needs its own enforcement.</li>
+    <li><strong>Every boundary should verify the claims it relies on.</strong> Trust should not be inherited blindly from the previous hop.</li>
+    <li><strong>Credentials belong in a credential system.</strong> They should not live in prompts, source code, container images, browser state, or tool arguments.</li>
+    <li><strong>Observability is part of agent development.</strong> CloudWatch sessions and traces are among the best ways to understand what actually happened. In an early iteration, the model was effectively using only the latest message and had no useful context from the previous turn. Without seeing the model input, tool decisions, and resulting trace, diagnosing that behavior was difficult.</li>
+  </ol>
+
+
+
+</article>

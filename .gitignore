@@ -1,5 +1,7 @@
 # --- Local-only docs (not part of the published repo) ---
 finance_app_flow.html
+wordpress_blog_post.html
+wordpress_blog_v1.html
 TODO.local.md
 
 # --- Secrets & environment-specific files (NEVER commit) ---
